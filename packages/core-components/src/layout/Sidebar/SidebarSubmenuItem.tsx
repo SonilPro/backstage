@@ -28,6 +28,7 @@ import { SidebarItemWithSubmenuContext } from './config';
 import { isLocationMatch } from './utils';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
+import { NewRibbon } from './NewRibbon';
 
 /** @public */
 export type SidebarSubmenuItemClassKey =
@@ -59,6 +60,7 @@ const useStyles = makeStyles(
       position: 'relative',
       background: 'none',
       border: 'none',
+      overflow: 'hidden',
     },
     itemContainer: {
       width: '100%',
@@ -148,6 +150,7 @@ export type SidebarSubmenuItemProps = {
   dropdownItems?: SidebarSubmenuItemDropdownItem[];
   exact?: boolean;
   initialShowDropdown?: boolean;
+  newRibbon?: boolean;
 };
 
 /**
@@ -156,7 +159,15 @@ export type SidebarSubmenuItemProps = {
  * @public
  */
 export const SidebarSubmenuItem = (props: SidebarSubmenuItemProps) => {
-  const { title, subtitle, to, icon: Icon, dropdownItems, exact } = props;
+  const {
+    title,
+    subtitle,
+    to,
+    icon: Icon,
+    dropdownItems,
+    exact,
+    newRibbon,
+  } = props;
   const classes = useStyles();
   const { setIsHoveredOn } = useContext(SidebarItemWithSubmenuContext);
   const closeSubmenu = () => {
@@ -275,6 +286,7 @@ export const SidebarSubmenuItem = (props: SidebarSubmenuItemProps) => {
               </Typography>
             )}
           </Typography>
+          {newRibbon && <NewRibbon />}
         </Link>
       </Tooltip>
     </Box>

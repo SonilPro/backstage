@@ -33,6 +33,7 @@ import ArrowDropDown from '@material-ui/icons/ArrowDropDown';
 import ArrowDropUp from '@material-ui/icons/ArrowDropUp';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import SearchIcon from '@material-ui/icons/Search';
+import NewReleasesIcon from '@material-ui/icons/NewReleases';
 import classnames from 'classnames';
 import type { Location } from 'history';
 
@@ -73,6 +74,7 @@ import { SidebarSubmenu, SidebarSubmenuProps } from './SidebarSubmenu';
 import { SidebarSubmenuItemProps } from './SidebarSubmenuItem';
 import { isLocationMatch } from './utils';
 import Button from '@material-ui/core/Button';
+import { NewRibbon } from './NewRibbon';
 
 /** @public */
 export type SidebarItemClassKey =
@@ -105,6 +107,8 @@ const makeSidebarStyles = (sidebarConfig: SidebarConfig) =>
         alignItems: 'center',
         height: 48,
         cursor: 'pointer',
+        position: 'relative',
+        overflow: 'hidden',
       },
       buttonItem: {
         background: 'none',
@@ -276,6 +280,7 @@ type SidebarItemBaseProps = {
   disableHighlight?: boolean;
   className?: string;
   noTrack?: boolean;
+  newRibbon?: boolean;
   onClick?: (ev: MouseEvent) => void;
 };
 
@@ -383,6 +388,7 @@ const SidebarItemBase = forwardRef<
     disableHighlight = false,
     onClick,
     noTrack,
+    newRibbon,
     children,
     className,
     ...navLinkProps
@@ -411,7 +417,7 @@ const SidebarItemBase = forwardRef<
       color="secondary"
       variant="dot"
       overlap="circular"
-      invisible={!hasNotifications}
+      invisible={!hasNotifications && !newRibbon}
       className={classnames({ [classes.closedItemIcon]: !isOpen })}
     >
       {displayItemIcon}
@@ -432,6 +438,7 @@ const SidebarItemBase = forwardRef<
           {text}
         </Typography>
       )}
+      {newRibbon && <NewRibbon />}
       <div className={classes.secondaryAction}>{children}</div>
     </>
   );
