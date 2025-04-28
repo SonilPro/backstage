@@ -33,7 +33,6 @@ import ArrowDropDown from '@material-ui/icons/ArrowDropDown';
 import ArrowDropUp from '@material-ui/icons/ArrowDropUp';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import SearchIcon from '@material-ui/icons/Search';
-import NewReleasesIcon from '@material-ui/icons/NewReleases';
 import classnames from 'classnames';
 import type { Location } from 'history';
 
