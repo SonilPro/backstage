@@ -417,4 +417,9 @@ export const componentDefinitions = {
       root: 'bui-VisuallyHidden',
     },
   },
+  Snackbar: {
+    classNames: {
+      snackbar: 'bui-Snackbar',
+    },
+  },
 } as const satisfies Record<string, ComponentDefinition>;

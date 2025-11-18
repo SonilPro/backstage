@@ -53,6 +53,7 @@ export * from './components/Select';
 export * from './components/Skeleton';
 export * from './components/Switch';
 export * from './components/VisuallyHidden';
+export * from './components/Snackbar';
 
 // Types
 export * from './types';
