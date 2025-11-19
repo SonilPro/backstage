@@ -14,31 +14,45 @@
  * limitations under the License.
  */
 
-import { forwardRef, useEffect, useState } from 'react';
+import {
+  ComponentProps,
+  forwardRef,
+  ReactNode,
+  useEffect,
+  useState,
+} from 'react';
 import { useStyles } from '../../hooks/useStyles';
 import styles from './Snackbar.module.css';
 import clsx from 'clsx';
+import { Skeleton } from '../Skeleton';
 
-export interface SnackBarProps {
+export interface SnackBarProps extends ComponentProps<'div'> {
   message: string;
   open?: boolean;
   anchorOrigin?: {
     vertical?: 'top' | 'bottom';
     horizontal?: 'left' | 'center' | 'right';
   };
+  action?: ReactNode;
   className?: string;
 }
 
 export const SnackBar = forwardRef<HTMLDivElement, SnackBarProps>(
   (props, ref) => {
+    const { classNames, cleanedProps } = useStyles('Snackbar', {
+      anchorOrigin: { vertical: 'top', horizontal: 'center' },
+      ...props,
+    });
+
     const {
-      message,
       open,
-      anchorOrigin = { vertical: 'top', horizontal: 'center' },
+      anchorOrigin: { horizontal, vertical },
+      message,
+      action,
+      style,
       className,
-    } = props;
-    const { vertical, horizontal } = anchorOrigin;
-    const { classNames, cleanedProps } = useStyles('Snackbar', props);
+      ...rest
+    } = cleanedProps;
     const [visible, setVisible] = useState(false);
 
     useEffect(() => {
@@ -55,16 +69,36 @@ export const SnackBar = forwardRef<HTMLDivElement, SnackBarProps>(
         role="status"
         aria-live="polite"
         className={clsx(
-          classNames.snackbar,
-          styles[classNames.snackbar],
+          classNames.root,
+          styles[classNames.root],
           { [styles.open]: visible },
           className,
         )}
         data-vertical={vertical}
         data-horizontal={horizontal}
-        {...cleanedProps}
+        style={{ ...style }}
+        {...rest}
       >
-        {message}
+        <div
+          className={clsx(
+            classNames.message,
+            styles[classNames.message],
+            className,
+          )}
+        >
+          {message}
+        </div>
+        {action && (
+          <div
+            className={clsx(
+              classNames.action,
+              styles[classNames.action],
+              className,
+            )}
+          >
+            {action}
+          </div>
+        )}
       </div>
     );
   },

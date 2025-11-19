@@ -419,7 +419,9 @@ export const componentDefinitions = {
   },
   Snackbar: {
     classNames: {
-      snackbar: 'bui-Snackbar',
+      root: 'bui-Snackbar',
+      message: 'bui-SnackbarMessage',
+      action: 'bui-SnackbarAction',
     },
   },
 } as const satisfies Record<string, ComponentDefinition>;
