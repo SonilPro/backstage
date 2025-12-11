@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import clsx from 'clsx';
 import {
   ComponentProps,
   forwardRef,
@@ -23,8 +24,6 @@ import {
 } from 'react';
 import { useStyles } from '../../hooks/useStyles';
 import styles from './Snackbar.module.css';
-import clsx from 'clsx';
-import { Skeleton } from '../Skeleton';
 
 export interface SnackBarProps extends ComponentProps<'div'> {
   message: string;

@@ -26,54 +26,59 @@ import { CatalogEntityPage, CatalogIndexPage } from '@backstage/plugin-catalog';
 
 import { CatalogGraphPage } from '@backstage/plugin-catalog-graph';
 import { CatalogImportPage } from '@backstage/plugin-catalog-import';
-import { HomepageCompositionRoot, VisitListener } from '@backstage/plugin-home';
+import { HomepageCompositionRoot } from '@backstage/plugin-home';
 
+import { catalogEntityCreatePermission } from '@backstage/plugin-catalog-common/alpha';
+import { CatalogUnprocessedEntitiesPage } from '@backstage/plugin-catalog-unprocessed-entities';
+import { DevToolsPage } from '@backstage/plugin-devtools';
+import { BuiThemerPage } from '@backstage/plugin-mui-to-bui';
+import {
+  NotificationsPage,
+  UserNotificationSettingsCard,
+} from '@backstage/plugin-notifications';
+import { RequirePermission } from '@backstage/plugin-permission-react';
 import { ScaffolderPage } from '@backstage/plugin-scaffolder';
 import {
   ScaffolderFieldExtensions,
   ScaffolderLayouts,
 } from '@backstage/plugin-scaffolder-react';
 import { SearchPage } from '@backstage/plugin-search';
+import { SignalsDisplay } from '@backstage/plugin-signals';
 import {
   TechDocsIndexPage,
   TechDocsReaderPage,
 } from '@backstage/plugin-techdocs';
-import { TechDocsAddons } from '@backstage/plugin-techdocs-react';
 import {
   ExpandableNavigation,
   LightBox,
   ReportIssue,
   TextSize,
 } from '@backstage/plugin-techdocs-module-addons-contrib';
+import { TechDocsAddons } from '@backstage/plugin-techdocs-react';
 import {
   SettingsLayout,
   UserSettingsPage,
 } from '@backstage/plugin-user-settings';
-import { AdvancedSettings } from './components/advancedSettings';
+import { SnackBar as BuiSnackbar, Switch } from '@backstage/ui';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import Snackbar, { SnackbarCloseReason } from '@material-ui/core/Snackbar';
 import AlarmIcon from '@material-ui/icons/Alarm';
+import CloseIcon from '@material-ui/icons/Close';
+import { useState } from 'react';
 import { Navigate, Route } from 'react-router-dom';
 import { apis } from './apis';
+import { AdvancedSettings } from './components/advancedSettings';
 import { entityPage } from './components/catalog/EntityPage';
-import { Root } from './components/Root';
-import { DelayingComponentFieldExtension } from './components/scaffolder/customScaffolderExtensions';
-import { defaultPreviewTemplate } from './components/scaffolder/defaultPreviewTemplate';
-import { searchPage } from './components/search/SearchPage';
-import { providers } from './identityProviders';
-import { SignalsDisplay } from '@backstage/plugin-signals';
-import { techDocsPage } from './components/techdocs/TechDocsPage';
-import { RequirePermission } from '@backstage/plugin-permission-react';
-import { catalogEntityCreatePermission } from '@backstage/plugin-catalog-common/alpha';
-import { TwoColumnLayout } from './components/scaffolder/customScaffolderLayouts';
 import { customDevToolsPage } from './components/devtools/CustomDevToolsPage';
-import { DevToolsPage } from '@backstage/plugin-devtools';
-import { CatalogUnprocessedEntitiesPage } from '@backstage/plugin-catalog-unprocessed-entities';
-import {
-  NotificationsPage,
-  UserNotificationSettingsCard,
-} from '@backstage/plugin-notifications';
 import { CustomizableHomePage } from './components/home/CustomizableHomePage';
 import { HomePage } from './components/home/HomePage';
-import { BuiThemerPage } from '@backstage/plugin-mui-to-bui';
+import { DelayingComponentFieldExtension } from './components/scaffolder/customScaffolderExtensions';
+import { TwoColumnLayout } from './components/scaffolder/customScaffolderLayouts';
+import { defaultPreviewTemplate } from './components/scaffolder/defaultPreviewTemplate';
+import { searchPage } from './components/search/SearchPage';
+import { techDocsPage } from './components/techdocs/TechDocsPage';
+import { providers } from './identityProviders';
 
 const app = createApp({
   apis,
@@ -213,14 +218,52 @@ const routes = (
   </FlatRoutes>
 );
 
-export default app.createRoot(
-  <>
-    <AlertDisplay transientTimeoutMs={2500} />
-    <OAuthRequestDialog />
-    <SignalsDisplay />
-    <AppRouter>
-      <VisitListener />
-      <Root>{routes}</Root>
-    </AppRouter>
-  </>,
-);
+const Root2 = () => {
+  const [open, setOpen] = useState(true);
+  const [openBui, setOpenBui] = useState(true);
+  const handleClose = (
+    event: React.SyntheticEvent | Event,
+    reason?: SnackbarCloseReason,
+  ) => {
+    setOpen(false);
+  };
+
+  const action = (
+    <>
+      <Button color="secondary" size="small" onClick={handleClose}>
+        UNDO
+      </Button>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleClose}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </>
+  );
+
+  return (
+    <>
+      <AlertDisplay transientTimeoutMs={2500} />
+      <OAuthRequestDialog />
+      <SignalsDisplay />
+      <Snackbar
+        open={open}
+        message="Note archived asdfasd fasd fasdf asdf asdfas asdf"
+        style={{ width: '288px' }}
+        action={action}
+      />
+      <BuiSnackbar
+        open={openBui}
+        style={{ width: '288px' }}
+        message="Note archived asdfasd fasd fasdf asdf asdfas asdf"
+        action={action}
+      />
+      <Switch value="test" />
+    </>
+  );
+};
+
+export default app.createRoot(<AppRouter>{routes}</AppRouter>);
