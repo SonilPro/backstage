@@ -609,3 +609,7 @@ Entity content extensions can also declare an `icon` parameter. When provided as
 
 - The entity page must have `showNavItemIcons: true` (see configuration above).
 - The icon id must be available in the app's enabled icon bundles.
+
+### Entity Context Menu
+
+You can configure the context menu items using `EntityContextMenuItemBlueprint`. The current items are defined here
