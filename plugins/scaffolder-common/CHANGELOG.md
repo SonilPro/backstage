@@ -1,5 +1,36 @@
 # @backstage/plugin-scaffolder-common
 
+## 2.2.1
+
+### Patch Changes
+
+- 02c4e8a: Removed unused `json-schema` runtime dependency. The package was only used for TypeScript types from `@types/json-schema`; affected imports have been converted to `import type` to allow safe removal.
+- Updated dependencies
+  - @backstage/integration@2.0.3
+
+## 2.2.1-next.0
+
+### Patch Changes
+
+- Updated dependencies
+  - @backstage/integration@2.0.3-next.0
+
+## 2.2.0
+
+### Minor Changes
+
+- 8006acf: Promote the `formDecorators` field on the `Template` spec out of experimental.
+  The previous `EXPERIMENTAL_formDecorators` field continues to work and is
+  kept as a deprecated alias.
+
+### Patch Changes
+
+- Updated dependencies
+  - @backstage/catalog-model@1.9.0
+  - @backstage/errors@1.3.1
+  - @backstage/integration@2.0.2
+  - @backstage/plugin-permission-common@0.9.9
+
 ## 2.2.0-next.1
 
 ### Minor Changes

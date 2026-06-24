@@ -7,7 +7,7 @@ import { AnyZodObject } from 'zod/v3';
 import { BackstageCredentials } from '@backstage/backend-plugin-api';
 import { BasicPermission } from '@backstage/plugin-permission-common';
 import { JsonObject } from '@backstage/types';
-import { JSONSchema7 } from 'json-schema';
+import type { JSONSchema7 } from 'json-schema';
 import { JsonValue } from '@backstage/types';
 import { LoggerService } from '@backstage/backend-plugin-api';
 import type { Request as Request_2 } from 'express';
@@ -15,8 +15,14 @@ import { ServiceRef } from '@backstage/backend-plugin-api';
 import { z } from 'zod/v3';
 
 // @alpha (undocumented)
-export type ActionsRegistryActionContext<TInputSchema extends AnyZodObject> = {
+export type ActionsRegistryActionContext<
+  TInputSchema extends AnyZodObject,
+  TSecretsSchema extends AnyZodObject | undefined = undefined,
+> = {
   input: z.infer<TInputSchema>;
+  secrets: TSecretsSchema extends AnyZodObject
+    ? z.infer<TSecretsSchema>
+    : undefined;
   logger: LoggerService;
   credentials: BackstageCredentials;
 };
@@ -36,6 +42,7 @@ export type ActionsRegistryActionExample<
 export type ActionsRegistryActionOptions<
   TInputSchema extends AnyZodObject,
   TOutputSchema extends AnyZodObject,
+  TSecretsSchema extends AnyZodObject | undefined = undefined,
 > = {
   name: string;
   title: string;
@@ -43,6 +50,9 @@ export type ActionsRegistryActionOptions<
   schema: {
     input: (zod: typeof z) => TInputSchema;
     output: (zod: typeof z) => TOutputSchema;
+    secrets?: (
+      zod: typeof z,
+    ) => TSecretsSchema extends AnyZodObject ? TSecretsSchema : never;
   };
   examples?: Array<ActionsRegistryActionExample<TInputSchema, TOutputSchema>>;
   visibilityPermission?: BasicPermission;
@@ -51,7 +61,9 @@ export type ActionsRegistryActionOptions<
     idempotent?: boolean;
     readOnly?: boolean;
   };
-  action: (context: ActionsRegistryActionContext<TInputSchema>) => Promise<
+  action: (
+    context: ActionsRegistryActionContext<TInputSchema, TSecretsSchema>,
+  ) => Promise<
     z.infer<TOutputSchema> extends void
       ? void
       : {
@@ -66,8 +78,13 @@ export interface ActionsRegistryService {
   register<
     TInputSchema extends AnyZodObject,
     TOutputSchema extends AnyZodObject,
+    TSecretsSchema extends AnyZodObject | undefined = undefined,
   >(
-    options: ActionsRegistryActionOptions<TInputSchema, TOutputSchema>,
+    options: ActionsRegistryActionOptions<
+      TInputSchema,
+      TOutputSchema,
+      TSecretsSchema
+    >,
   ): void;
 }
 
@@ -84,6 +101,7 @@ export interface ActionsService {
   invoke(opts: {
     id: string;
     input?: JsonObject;
+    secrets?: JsonObject;
     credentials: BackstageCredentials;
   }): Promise<{
     output: JsonValue;
@@ -104,6 +122,7 @@ export type ActionsServiceAction = {
   schema: {
     input: JSONSchema7;
     output: JSONSchema7;
+    secrets?: JSONSchema7;
   };
   examples?: Array<{
     title: string;
@@ -124,6 +143,13 @@ export const actionsServiceRef: ServiceRef<
   'plugin',
   'singleton'
 >;
+
+// @alpha
+export interface ConnectionRegistration {
+  description?: string;
+  required?: boolean;
+  type: string;
+}
 
 // @alpha
 export interface MetricAdvice {
@@ -292,10 +318,16 @@ export const rootSystemMetadataServiceRef: ServiceRef<
 
 // @alpha
 export interface TracingService {
+  readonly context: TracingServiceContextAPI;
+  readonly propagation: TracingServicePropagationAPI;
   startActiveSpan<T>(
     name: string,
     fn: (span: TracingServiceSpan) => T | Promise<T>,
-    options?: TracingServiceSpanOptions,
+  ): Promise<T>;
+  startActiveSpan<T>(
+    name: string,
+    options: TracingServiceSpanOptions,
+    fn: (span: TracingServiceSpan) => T | Promise<T>,
   ): Promise<T>;
 }
 
@@ -313,6 +345,40 @@ export type TracingServiceAttributeValue =
   | Array<null | undefined | string>
   | Array<null | undefined | number>
   | Array<null | undefined | boolean>;
+
+// @alpha
+export interface TracingServiceBaggage {
+  // (undocumented)
+  getAllEntries(): Array<[string, TracingServiceBaggageEntry]>;
+}
+
+// @alpha
+export interface TracingServiceBaggageEntry {
+  // (undocumented)
+  value: string;
+}
+
+// @alpha
+export interface TracingServiceContext {
+  // (undocumented)
+  readonly $$type: '@backstage/TracingServiceContext';
+}
+
+// @alpha
+export interface TracingServiceContextAPI {
+  active(): TracingServiceContext;
+  with<T>(context: TracingServiceContext, fn: () => T | Promise<T>): Promise<T>;
+}
+
+// @alpha
+export interface TracingServicePropagationAPI {
+  extract(
+    context: TracingServiceContext,
+    carrier: Record<string, string | string[] | undefined>,
+  ): TracingServiceContext;
+  getActiveBaggage(): TracingServiceBaggage | undefined;
+  getBaggage(context: TracingServiceContext): TracingServiceBaggage | undefined;
+}
 
 // @alpha
 export const tracingServiceRef: ServiceRef<

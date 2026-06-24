@@ -1,5 +1,59 @@
 # @backstage/frontend-app-api
 
+## 0.16.5-next.0
+
+### Patch Changes
+
+- 74fbcd7: Extension `if` predicates now support specifying an `action` attribute in the permission reference. When a permission name contains a `#` separator (e.g. `catalog.entity.read#read`), the part after `#` is used as `attributes.action` when evaluating the permission. This removes the need to configure action attributes separately for basic permissions.
+- Updated dependencies
+  - @backstage/filter-predicates@0.1.4-next.0
+  - @backstage/core-app-api@1.20.3-next.0
+  - @backstage/frontend-defaults@0.5.4-next.0
+  - @backstage/frontend-plugin-api@0.17.3-next.0
+  - @backstage/core-plugin-api@1.12.8-next.0
+
+## 0.16.4
+
+### Patch Changes
+
+- Updated dependencies
+  - @backstage/frontend-plugin-api@0.17.2
+  - @backstage/frontend-defaults@0.5.3
+  - @backstage/core-app-api@1.20.2
+  - @backstage/core-plugin-api@1.12.7
+
+## 0.16.4-next.1
+
+### Patch Changes
+
+- Updated dependencies
+  - @backstage/frontend-plugin-api@0.17.2-next.0
+  - @backstage/core-plugin-api@1.12.7-next.0
+  - @backstage/frontend-defaults@0.5.3-next.1
+  - @backstage/core-app-api@1.20.2-next.0
+
+## 0.16.4-next.0
+
+### Patch Changes
+
+- Updated dependencies
+  - @backstage/frontend-defaults@0.5.3-next.0
+
+## 0.16.3
+
+### Patch Changes
+
+- f79eaf2: Internal cleanup of routing utilities.
+- b6ca666: Invalid feature flag declarations no longer crash the app during bootstrap. They are now reported through the error collector and skipped, letting the rest of the app load normally.
+- Updated dependencies
+  - @backstage/errors@1.3.1
+  - @backstage/frontend-defaults@0.5.2
+  - @backstage/frontend-plugin-api@0.17.0
+  - @backstage/core-plugin-api@1.12.6
+  - @backstage/filter-predicates@0.1.3
+  - @backstage/config@1.3.8
+  - @backstage/core-app-api@1.20.1
+
 ## 0.16.3-next.1
 
 ### Patch Changes

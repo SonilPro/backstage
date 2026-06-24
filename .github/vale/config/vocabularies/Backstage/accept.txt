@@ -27,6 +27,7 @@ autoscaling
 autoselect
 Avro
 backend's
+backoff
 backported
 backporting
 BEPs
@@ -258,6 +259,7 @@ LocalStack
 lockdown
 lockfile
 lockfiles
+loopback
 lookbehind
 lookup
 lookups
@@ -390,6 +392,7 @@ readonly
 rebase
 rebasing
 Recharts
+recurse
 redactions
 Redash
 redis
@@ -487,6 +490,7 @@ subpath
 subpaths
 subroute
 subroutes
+subquery
 substring
 subtree
 superfences
@@ -538,6 +542,7 @@ TTLs
 Turbopack
 TSDoc
 typeahead
+typoed
 ui
 unassign
 unbreak
@@ -558,6 +563,7 @@ untracked
 upsert
 upstreams
 upvote
+UIs
 URIs
 url
 URLs

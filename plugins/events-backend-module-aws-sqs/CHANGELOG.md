@@ -1,5 +1,38 @@
 # @backstage/plugin-events-backend-module-aws-sqs
 
+## 0.4.24-next.0
+
+### Patch Changes
+
+- Updated dependencies
+  - @backstage/backend-plugin-api@1.9.3-next.0
+  - @backstage/plugin-events-node@0.4.24-next.0
+
+## 0.4.23
+
+### Patch Changes
+
+- Updated dependencies
+  - @backstage/backend-plugin-api@1.9.2
+  - @backstage/plugin-events-node@0.4.23
+
+## 0.4.23-next.0
+
+### Patch Changes
+
+- Updated dependencies
+  - @backstage/backend-plugin-api@1.9.2-next.0
+  - @backstage/plugin-events-node@0.4.23-next.0
+
+## 0.4.22
+
+### Patch Changes
+
+- Updated dependencies
+  - @backstage/backend-plugin-api@1.9.1
+  - @backstage/config@1.3.8
+  - @backstage/plugin-events-node@0.4.22
+
 ## 0.4.22-next.0
 
 ### Patch Changes

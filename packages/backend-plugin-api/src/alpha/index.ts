@@ -50,6 +50,11 @@ export type {
   TracingService,
   TracingServiceAttributeValue,
   TracingServiceAttributes,
+  TracingServiceBaggage,
+  TracingServiceBaggageEntry,
+  TracingServiceContext,
+  TracingServiceContextAPI,
+  TracingServicePropagationAPI,
   TracingServiceSpan,
   TracingServiceSpanKind,
   TracingServiceSpanOptions,
@@ -63,3 +68,5 @@ export {
   rootSystemMetadataServiceRef,
   tracingServiceRef,
 } from './refs';
+
+export type { ConnectionRegistration } from '../wiring/types';

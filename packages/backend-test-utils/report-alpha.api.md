@@ -16,6 +16,8 @@ import { MetricsService } from '@backstage/backend-plugin-api/alpha';
 import { ServiceFactory } from '@backstage/backend-plugin-api';
 import { TracingService } from '@backstage/backend-plugin-api/alpha';
 import { TracingServiceAttributeValue } from '@backstage/backend-plugin-api/alpha';
+import { TracingServiceContextAPI } from '@backstage/backend-plugin-api/alpha';
+import { TracingServicePropagationAPI } from '@backstage/backend-plugin-api/alpha';
 import { TracingServiceSpan } from '@backstage/backend-plugin-api/alpha';
 import { TracingServiceSpanStatus } from '@backstage/backend-plugin-api/alpha';
 
@@ -63,13 +65,14 @@ export class MockActionsRegistry
   implements ActionsRegistryService, ActionsService
 {
   // (undocumented)
-  readonly actions: Map<string, ActionsRegistryActionOptions<any, any>>;
+  readonly actions: Map<string, ActionsRegistryActionOptions<any, any, any>>;
   // (undocumented)
   static create(opts: { logger: LoggerService }): MockActionsRegistry;
   // (undocumented)
   invoke(opts: {
     id: string;
     input?: JsonObject;
+    secrets?: JsonObject;
     credentials?: BackstageCredentials;
   }): Promise<{
     output: JsonValue;
@@ -82,7 +85,36 @@ export class MockActionsRegistry
   register<
     TInputSchema extends AnyZodObject,
     TOutputSchema extends AnyZodObject,
-  >(options: ActionsRegistryActionOptions<TInputSchema, TOutputSchema>): void;
+    TSecretsSchema extends AnyZodObject | undefined = undefined,
+  >(
+    options: ActionsRegistryActionOptions<
+      TInputSchema,
+      TOutputSchema,
+      TSecretsSchema
+    >,
+  ): void;
+}
+
+// @alpha
+export interface MockedTracingServiceContextAPI
+  extends TracingServiceContextAPI {
+  // (undocumented)
+  active: jest.MockedFunction<TracingServiceContextAPI['active']>;
+  // (undocumented)
+  with: jest.MockedFunction<TracingServiceContextAPI['with']>;
+}
+
+// @alpha
+export interface MockedTracingServicePropagationAPI
+  extends TracingServicePropagationAPI {
+  // (undocumented)
+  extract: jest.MockedFunction<TracingServicePropagationAPI['extract']>;
+  // (undocumented)
+  getActiveBaggage: jest.MockedFunction<
+    TracingServicePropagationAPI['getActiveBaggage']
+  >;
+  // (undocumented)
+  getBaggage: jest.MockedFunction<TracingServicePropagationAPI['getBaggage']>;
 }
 
 // @alpha
@@ -107,7 +139,11 @@ export type ServiceMock<TService> = {
 // @alpha
 export interface TracingServiceMock extends TracingService {
   // (undocumented)
+  context: MockedTracingServiceContextAPI;
+  // (undocumented)
   factory: ServiceFactory<TracingService>;
+  // (undocumented)
+  propagation: MockedTracingServicePropagationAPI;
   spans: MockedTracingServiceSpan[];
   // (undocumented)
   startActiveSpan: jest.MockedFunction<TracingService['startActiveSpan']>;

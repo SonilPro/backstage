@@ -1,5 +1,56 @@
 # @backstage/core-compat-api
 
+## 0.5.13-next.0
+
+### Patch Changes
+
+- Updated dependencies
+  - @backstage/plugin-catalog-react@3.2.0-next.0
+  - @backstage/filter-predicates@0.1.4-next.0
+  - @backstage/frontend-plugin-api@0.17.3-next.0
+  - @backstage/core-plugin-api@1.12.8-next.0
+  - @backstage/plugin-app-react@0.2.5-next.0
+
+## 0.5.12
+
+### Patch Changes
+
+- Updated dependencies
+  - @backstage/plugin-catalog-react@3.1.0
+  - @backstage/frontend-plugin-api@0.17.2
+  - @backstage/core-plugin-api@1.12.7
+  - @backstage/plugin-app-react@0.2.4
+
+## 0.5.12-next.1
+
+### Patch Changes
+
+- Updated dependencies
+  - @backstage/frontend-plugin-api@0.17.2-next.0
+  - @backstage/core-plugin-api@1.12.7-next.0
+  - @backstage/plugin-app-react@0.2.4-next.0
+  - @backstage/plugin-catalog-react@3.0.1-next.1
+
+## 0.5.12-next.0
+
+### Patch Changes
+
+- Updated dependencies
+  - @backstage/plugin-catalog-react@3.0.1-next.0
+
+## 0.5.11
+
+### Patch Changes
+
+- 744fa1f: Removed duplicated entries that appeared in both `dependencies` and `devDependencies`.
+- Updated dependencies
+  - @backstage/errors@1.3.1
+  - @backstage/frontend-plugin-api@0.17.0
+  - @backstage/core-plugin-api@1.12.6
+  - @backstage/filter-predicates@0.1.3
+  - @backstage/plugin-catalog-react@3.0.0
+  - @backstage/plugin-app-react@0.2.3
+
 ## 0.5.11-next.0
 
 ### Patch Changes
